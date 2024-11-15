@@ -19,12 +19,12 @@
 <a href='https://www.r-bloggers.com/2023/03/creating-standalone-apps-from-shiny-with-electron-2023-macos-m1/' target ='_blank'>Creating Standalone Apps from Shiny with Electron [2023, macOS M1]</a>
 
 ## Versions info 
-![NodeJS](https://img.shields.io/badge/node.js-20.11.0-6DA55F?style=for-the-badge&logo=node.js&logoColor=white)
-![NPM](https://img.shields.io/badge/NPM-10.3.0-%23CB3837.svg?style=for-the-badge&logo=npm&logoColor=white)
-![RStudio](https://img.shields.io/badge/RStudio-2023.12.0-4285F4?style=for-the-badge&logo=rstudio&logoColor=white)
-![R](https://img.shields.io/badge/r-4.3.2-%23276DC3.svg?style=for-the-badge&logo=r&logoColor=white)
+![NodeJS](https://img.shields.io/badge/node.js-22.11.0-6DA55F?style=for-the-badge&logo=node.js&logoColor=white)
+![NPM](https://img.shields.io/badge/NPM-10.9.0-%23CB3837.svg?style=for-the-badge&logo=npm&logoColor=white)
+![RStudio](https://img.shields.io/badge/RStudio-2024.09.1-4285F4?style=for-the-badge&logo=rstudio&logoColor=white)
+![R](https://img.shields.io/badge/r-4.4.2-%23276DC3.svg?style=for-the-badge&logo=r&logoColor=white)
 ![Electron.js](https://img.shields.io/badge/Electron-7.2.0-191970?style=for-the-badge&logo=Electron&logoColor=white) 
-![windowOS](https://img.shields.io/badge/windows-10-AAA?style=for-the-badge&logo=microsoft)
+![windowOS](https://img.shields.io/badge/windows-11-AAA?style=for-the-badge&logo=microsoft)
 
 ---
 
@@ -42,32 +42,38 @@
 1. Install **R**, **Rstudio**.
 2. Install **Node.js**: from <a href = "https://nodejs.org/en/" target = "_blank"> offical page </a>
 3. Install **Electron Forge** using `npm` (`npm` is installed with `Node.js`)
-4. In the **Terminal**, run `sudo npm i -g @electron-forge/cli`, (`sudo` requires password)
-5. Install **Innoextract** from <a href='https://constexpr.org/innoextract/' target ='_blank'>this link</a> (Windows Only) and move it to program files and add Environment variable PATH (See [this](https://stackoverflow.com/questions/53193489/path-variable-in-environmental-variable-accepts-only-one-path)
+4. In the **Terminal**, run `sudo npm i -g @electron-forge/cli`, (`sudo` requires password) 
+If you have trouble try `npm install --save-dev @electron-forge/cli`
+
+5. Install **Innoextract** from <a href='https://constexpr.org/innoextract/' target ='_blank'>this link</a> (Windows Only) and move it to program files and add Environment variable PATH (See [this](https://stackoverflow.com/questions/53193489/path-variable-in-environmental-variable-accepts-only-one-path))
 
 > [!NOTE]
 > Check your versions of `node` and `npm` in **Terminal** with `node -v`, `npm -v`.
 
 6. Give **Star** ⭐, **Fork** this repository to your own account. Then **clone** it to your local PC
 
-### B. Elecron project
+### B. Electron project
 
 7.  Open an R project with cloned repository's `.Rproj` file.
-8.  In your project directory (may `Github/shiny-electron-template-m1`), install **Electron** locally by running `npx create-electron-app <APPNAME>`.
+8.  In your project directory (may `Github/shiny-electron-template-windows`), install **Electron** locally by running `npx create-electron-app <APPNAME>`.
 
 > [!WARNING]
 > You can not use `app` as `<APPNAME>` <br>
 > Assume using `myapp` in this tutorial
 
+<div style='text-align:center';>
+    <img src='https://github.com/user-attachments/assets/d69ffb27-8fff-4be2-9fff-45d0156a0d05' width='80%'>
+</div>
+
 9.  In your `myapp` folder, **delete** `src` directory
 10.  Copy (or move) below files to your `myapp` folder:
 
--   `get-r-win.sh`: For install local R for electron app.
+-   `get-r-win.sh`: This installs a "local" R, that will be used by the electron app.
 -   `add-cran-binary-pkgs.R`: For install R packages into your project locally
 -   `start-shiny.R`: Let electron call your shiny app
 
 -   Folder **shiny** from this template, containing:
-    -  `shiny/app.R`: **THIS IS YOUR SHINY APP'S CODE**    
+    -  `shiny/app.R`: ⚠️**THIS IS YOUR SHINY APP'S CODE, replace this with your app's code and other files like /www**    
 
 -   Folder **src** from this template, containing:         
     -   src/helpers.js     
@@ -85,7 +91,14 @@
     -   First, check the version of R on your machine. In the R **Console**, run `version`.
 
 > [!WARNING]
-> **Your PC's R version** and **electron's R version** must same
+> **Your PC's R version** and **electron's R version** must same, so if template's version is not same, you have to change as proper url
+
+You may see URL (`cloud.r-project.org/bin/windows/base/`) which shows latest version of R.
+and if you move your mouse to `Download R-4.4.2 for ...` you can see URL of it on the left bottom and you can use it to `.sh` file
+
+<div style='text-align:center';>
+    <img src='https://github.com/user-attachments/assets/aa331568-3973-4056-86f4-bef2634d94ca' width='80%'>
+</div>
 
 13. Build `app.R` as your application's code.
 
@@ -96,20 +109,28 @@
 
 15. In the Rstudio **terminal**, run `Rscript add-cran-binary-pkgs.R` to get packages for R.
 
+<div style='text-align:center';>
+    <img src='https://github.com/user-attachments/assets/ebc85832-1a12-4b7a-82e5-3d811874e4e5' width='80%'>
+</div>
+
 > [!NOTE]
 > If your shiny application uses not-CRAN packages (like `github` / `bioconductor`), See **Add not-CRAN packages** below.
 > 
 
 ### D. Setup electron
 
-16. Change `package.json` as <a target = "_blank" href='%5Bfix%5D%20package-json'>`[fix] packages-json`</a>'s content. And modify **author** information.
+16. Change `package.json` as <a target = "_blank" href='%5Bfix%5D%20package-json'>`[fix] packages-json`</a>'s content. And modify **author** information. (not merge)
 
 > [!NOTE]
-> Node package's version confirmed in 2024.01
+> Node package's version confirmed in 2024.11
 
-17. Change `forge.config.js` as <a target = "_blank" href = '/%5Bfix%5D%20forge-config-js'>`[fix] forge.config.js`</a>'s content. 
+17. Change `forge.config.js` as <a target = "_blank" href = '/%5Bfix%5D%20forge-config-js'>`[fix] forge.config.js`</a>'s content. (not merge)
 
 18. Run `npm install` in **Terminal** to add new dependencies you listed in `package.json` to the **node_modules** folder.
+
+<div style='text-align:center';>
+    <img src='https://github.com/user-attachments/assets/aea4a364-74f6-46c8-9f5d-2e18352031ed' width='80%'>
+</div>
 
 ### E. Build shiny.exe
 
@@ -117,6 +138,10 @@
 > You need to run step after this, **whenever** you want to update shiny application.
 
 19. Test your shiny application work by `electron-forge start` in **Terminal**.
+
+<div style='text-align:center';>
+    <img src='https://github.com/user-attachments/assets/309045d4-867b-4d7f-87ff-bbe92b1b7a4a' width='80%'>
+</div>
 
 20. If the app runs successfully, congratulations! Create the `.exe`(as ZIP) on the `electron-forge make` in **Terminal**. Your app can be found in the **/out** folder. (Strongly recommend to **open with Administrator**)
 
